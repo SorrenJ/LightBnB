@@ -6,12 +6,14 @@ CREATE TABLE users (
 );
 
 
-CREATE TABLE reservation (
+CREATE TABLE reservations (
   id INTEGER PRIMARY KEY,
   start_date DATE,
   end_date DATE,
   property_id INTEGER,
-  guest_id INTEGER
+  guest_id INTEGER,
+      FOREIGN KEY (guest_id) REFERENCES users(id)
+     
 );
 
 
@@ -20,7 +22,8 @@ CREATE TABLE property_reviews (
   property_id INTEGER,
  reservation_id INTEGER,
  rating SMALLINT,
- message TEXT
+ message TEXT,
+ FOREIGN KEY (guest_id) REFERENCES users(id)
 );
 
 
@@ -41,5 +44,7 @@ CREATE TABLE properties (
     city VARCHAR(255),
     province VARCHAR(255),
     post_code VARCHAR(255),
-    active BOOLEAN
+    active BOOLEAN,
+     FOREIGN KEY (id) REFERENCES property_reviews(property_id),
+          FOREIGN KEY (owner_id) REFERENCES users(id)
 );
