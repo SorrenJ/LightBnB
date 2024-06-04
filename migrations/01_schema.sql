@@ -1,8 +1,13 @@
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS reservations CASCADE;
+DROP TABLE IF EXISTS property_reviews CASCADE;
+DROP TABLE IF EXISTS properties CASCADE;
+
 CREATE TABLE users (
   id INTEGER PRIMARY KEY,
   name VARCHAR(255),
   email VARCHAR(255),
-  password VARCHAR(255),
+  password VARCHAR(255)
 );
 
 
