@@ -175,14 +175,15 @@ const getAllProperties = function (options, limit = 10) {
   let queryString = `
   SELECT properties.*, avg(property_reviews.rating) as average_rating
   FROM properties
-  JOIN property_reviews ON properties.id = property_reviews.property_id
+  LEFT JOIN property_reviews ON properties.id = property_reviews.property_id
   WHERE 1=1
   `;
 
   // 3
   if (options.city) {
-    queryParams.push(`%${options.city}%`);
-    queryString += ` AND city LIKE $${queryParams.length} `;
+    queryParams.push(`%${options.city.trim()}%`);
+    //const prefix = queryParams.length === 0 ? `WHERE`: 'AND'; 
+    queryString += ` AND city ILIKE $${queryParams.length} `;
   }
 
   if (options.owner_id) {
@@ -265,6 +266,78 @@ const getAllProperties = function (options, limit = 10) {
  * @return {Promise<{}>} A promise to the property.
  */
 const addProperty = function (property) {
+  
+  
+  const {
+    owner_id,
+    title,
+    description,
+    thumbnail_photo_url,
+    cover_photo_url,
+    cost_per_night,
+    street,
+    city,
+    province,
+    post_code,
+    country,
+    parking_spaces,
+    number_of_bathrooms,
+    number_of_bedrooms
+} = property;
+
+const queryString = `
+    INSERT INTO properties (
+        owner_id, 
+        title, 
+        description, 
+        thumbnail_photo_url, 
+        cover_photo_url, 
+        cost_per_night, 
+        street, 
+        city, 
+        province, 
+        post_code, 
+        country, 
+        parking_spaces, 
+        number_of_bathrooms, 
+        number_of_bedrooms
+    ) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+    RETURNING *;
+`;
+
+const queryParams = [
+    owner_id, 
+    title, 
+    description, 
+    thumbnail_photo_url, 
+    cover_photo_url, 
+    cost_per_night, 
+    street, 
+    city, 
+    province, 
+    post_code, 
+    country, 
+    parking_spaces, 
+    number_of_bathrooms, 
+    number_of_bedrooms
+];
+
+return pool.query(queryString, queryParams)
+.then(res => {
+  console.log("Guest ID that posted the property:", owner_id);
+  return res.rows[0];
+})
+.catch(err => console.error('query error', err.stack));
+
+  
+  
+  
+  
+  
+  
+  
+  // OLD CODE
   const propertyId = Object.keys(properties).length + 1;
   property.id = propertyId;
   properties[propertyId] = property;
