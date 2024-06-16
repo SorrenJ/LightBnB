@@ -18,38 +18,41 @@ const getAllProperties = function (options, limit = 10) {
     WHERE 1=1
     `;
   
-    // 3
+    // City filter
     if (options.city) {
       queryParams.push(`%${options.city.trim()}%`);
       //const prefix = queryParams.length === 0 ? `WHERE`: 'AND'; 
       queryString += ` AND city ILIKE $${queryParams.length} `;
     }
   
+    // Owner user filter (not displayed)
     if (options.owner_id) {
       queryParams.push(`${options.owner_id}`);
       queryString += ` AND owner_id = $${queryParams.length} `;
     }
   
+   // Minimum price filter 
     if (options.minimum_price_per_night) {
       queryParams.push(options.minimum_price_per_night * 100); // Convert dollars to cents
       queryString += ` AND cost_per_night >= $${queryParams.length} `;
     }
   
+    // Maximum price filter 
     if (options.maximum_price_per_night) {
       queryParams.push(options.maximum_price_per_night * 100); // Convert dollars to cents
       queryString += ` AND cost_per_night <= $${queryParams.length} `;
     }
   
-    // 4
+    // Group by properties.id
     queryString += `
     GROUP BY properties.id
     `;
-  
+      // Minimum price filter 
     if (options.minimum_rating) {
       queryParams.push(options.minimum_rating);
       queryString += ` HAVING avg(property_reviews.rating) >= $${queryParams.length} `;
     }
-  
+      // Order result by the cost descending
     queryString += `
     ORDER BY cost_per_night
     LIMIT $${queryParams.length + 1};
@@ -57,10 +60,10 @@ const getAllProperties = function (options, limit = 10) {
   
     queryParams.push(limit);
   
-    // 5
+   
     console.log(queryString, queryParams);
   
-    // 6
+    // Pool query error handling
     return pool.query(queryString, queryParams)
       .then((res) => res.rows)
       .catch((err) => {
@@ -72,7 +75,7 @@ const getAllProperties = function (options, limit = 10) {
   
 
   /**
-   * Add a property to the database
+   * Add a property to the database when creating
    * @param {{}} property An object containing all of the property details.
    * @return {Promise<{}>} A promise to the property.
    */
@@ -96,6 +99,7 @@ const getAllProperties = function (options, limit = 10) {
       number_of_bedrooms
   } = property;
   
+  // User inputted queries for creating a new property
   const queryString = `
       INSERT INTO properties (
           owner_id, 
@@ -133,6 +137,8 @@ const getAllProperties = function (options, limit = 10) {
       number_of_bathrooms, 
       number_of_bedrooms
   ];
+  
+  // Pool query error handling
   
   return pool.query(queryString, queryParams)
   .then(res => {

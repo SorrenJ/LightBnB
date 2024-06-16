@@ -1,7 +1,7 @@
 const properties = require("./json/properties.json");
 const users = require("./json/users.json");
 
-/// Users
+// Client user as they connect to server
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -12,6 +12,7 @@ const pool = new Pool({
 });
 
 // the following assumes that you named your connection variable `pool`
+// Shows 10 featured properties upon opening the page
 pool.query(`SELECT title 
 FROM properties 
 LIMIT 10;`

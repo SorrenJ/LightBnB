@@ -3,6 +3,7 @@ const { pool } = require('../database');
 
 const getAllReservations = (guest_id) => {
  
+  // Shows the details of the guest's reservation by earliest start date
     const query = `
       SELECT r.id, p.title, p.cost_per_night, r.start_date, AVG(pr.rating) as average_rating
       FROM reservations r
