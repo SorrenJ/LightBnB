@@ -65,7 +65,7 @@ Users can create their own property listing.
 
 ## Documentation
 
-My rough entity relationship diagram for ideation.
+My rough sketch of the entity relationship diagram for ideation before implementing.
 
 ![MyER](./docs/LightBnB.png)
 
