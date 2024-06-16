@@ -32,7 +32,7 @@ CREATE DATABASE lightbnb;
 
 ## Run
 
-Connect to your database: `\c lightbnb` to `LightBnB/` directory
+Connect to your database: `\c lightbnb` at `LightBnB/` directory in your `psql` terminal
 
 Install  `npm install -g npx` to `LightBnB/LightBnB_WebApp/` directory
 
