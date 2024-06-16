@@ -2,14 +2,18 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const database = require("../db/database");
 
+
+const  {addUser,
+  getUserWithEmail,
+  getUserById,
+getAllUsers, } = require('../db/queries/user');
 const router = express.Router();
 
 // Create a new user
 router.post("/", (req, res) => {
   const user = req.body;
   user.password = bcrypt.hashSync(user.password, 12);
-  database
-    .addUser(user)
+addUser(user)
     .then((user) => {
       if (!user) {
         return res.send({ error: "error" });
@@ -26,7 +30,7 @@ router.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  database.getUserWithEmail(email).then((user) => {
+ getUserWithEmail(email).then((user) => {
     if (!user) {
       return res.send({ error: "no user with that id" });
     }
@@ -59,8 +63,7 @@ router.get("/me", (req, res) => {
     return res.send({ message: "not logged in" });
   }
 
-  database
-    .getUserWithId(userId)
+ getUserById(userId)
     .then((user) => {
       if (!user) {
         return res.send({ error: "no user with that id" });
