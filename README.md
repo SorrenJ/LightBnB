@@ -50,13 +50,13 @@ Register to become a user.
 
 Users can filter through existing property listings, by selecting the desired queries.
 
-![register](./docs/filter.gif)
+![filter](./docs/filter.gif)
 
 ### Create
 
 Users can create their own property listing.
 
-![register](./docs/create.gif)
+![create](./docs/create.gif)
 
 ## Stretch Features
 
@@ -64,6 +64,16 @@ Users can create their own property listing.
 2. Refactored the pool queries `/LightBnB_WebApp/db/database.js` into `LightBnB_WebApp/db/queries` directory
 
 ## Documentation
+
+My rough entity relationship diagram for ideation.
+
+![MyER](./docs/LightBnB.png)
+
+
+Actual entity relationship diagram based on the current repo.
+
+![RepoER](./docs/CompassER.png)
+
 
 ### LightBnB Back-End
 -  The schema for all of the tables can be found in `/migrations/01_schema.sql`
