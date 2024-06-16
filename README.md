@@ -43,12 +43,21 @@ To start running the app: `npm run local` and view at `localhost:3000`
 ### Sign up and Login
 
 Register to become a user.
+
+![register](./docs/register.gif)
+
 ### Filter
 
 Users can filter through existing property listings, by selecting the desired queries.
+
+![register](./docs/filter.gif)
+
 ### Create
 
 Users can create their own property listing.
+
+![register](./docs/create.gif)
+
 ## Stretch Features
 
 1. Added rates and guest_reviews tables in `migrations/01_schema.sql`
